@@ -1,0 +1,41 @@
+<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shiny" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
+      <feOffset in="blur" dx="3" dy="3" result="offsetBlur" />
+      <feSpecularLighting in="blur" surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#white" result="specOut">
+        <fePointLight x="-5000" y="-10000" z="20000" />
+      </feSpecularLighting>
+      <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut" />
+      <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint" />
+      <feMerge>
+        <feMergeNode in="offsetBlur"/>
+        <feMergeNode in="litPaint"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path d="M 50,5
+           L 61.8,38.2
+           L 97.6,38.2
+           L 67.9,58.8
+           L 79.5,91.8
+           L 50,71.2
+           L 20.5,91.8
+           L 32.1,58.8
+           L 2.4,38.2
+           L 38.2,38.2
+           Z"
+        fill="gold"
+        stroke="darkgoldenrod"
+        stroke-width="1"
+        filter="url(#shiny)" />
+  <!-- Knot -->
+  <path d="M 45,92
+           L 40,102
+           L 50,97
+           L 60,102
+           L 55,92 Z"
+        fill="gold"
+        stroke="darkgoldenrod"
+        stroke-width="1"/>
+</svg>
