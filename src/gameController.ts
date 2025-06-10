@@ -1,8 +1,8 @@
-import { canvas, ctx, scoreEl, livesEl, startBtn, overlay, messageTitle, messageContent, restartBtn } from './utils/domElements';
-import { Player, drawPlayer } from './core/player';
-import { Balloon, BALLOON_RADIUS, spawnBalloons, drawBalloons } from './components/balloon';
-import { Question, generateQuestion } from './core/questions';
-import { audioCtx, startBackgroundMusic, playPopSound, playFailSound } from './core/audio';
+import { canvas, ctx, scoreEl, livesEl, startBtn, overlay, messageTitle, messageContent, restartBtn } from './utils/domElements.js';
+import { Player, drawPlayer } from './core/player.js';
+import { Balloon, BALLOON_RADIUS, spawnBalloons, drawBalloons } from './components/balloon.js';
+import { Question, generateQuestion } from './core/questions.js';
+import { audioCtx, startBackgroundMusic, playPopSound, playFailSound } from './core/audio.js';
 
 // Game State Variables
 let player: Player | null = null;
