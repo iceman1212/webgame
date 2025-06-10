@@ -1,4 +1,4 @@
-import { canvas, ctx } from '../utils/domElements.js';
+import { canvas, ctx } from '../utils/domElements';
 
 // Type definitions
 export interface Player {
@@ -13,10 +13,15 @@ export const playerImage = new Image();
 playerImage.src = 'assets/images/player_character.svg'; // Ensure these assets are available
 
 export function drawPlayer(player: Player | null): void {
+  console.log("drawPlayer called with:", player);
   if (!ctx || !player) return;
+
+  console.log("playerImage state:", playerImage.src, playerImage.complete, playerImage.naturalWidth, playerImage.naturalHeight);
   if (playerImage.complete && playerImage.naturalHeight !== 0) {
+    console.log("Drawing player image");
     ctx.drawImage(playerImage, player.x, player.y, player.size, player.size);
   } else {
+    console.log("Drawing fallback player shape");
     const x: number = player.x + player.size / 2;
     const y: number = player.y + player.size / 2;
     ctx.save();
