@@ -1,0 +1,22 @@
+<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Balloon Body -->
+  <circle cx="50" cy="50" r="45" fill="yellow" stroke="black" stroke-width="1"/>
+
+  <!-- Knot -->
+  <path d="M 45,95
+           L 40,105
+           L 50,100
+           L 60,105
+           L 55,95 Z"
+        fill="yellow"
+        stroke="black"
+        stroke-width="1"/>
+
+  <!-- Face -->
+  <!-- Eyes -->
+  <circle cx="35" cy="40" r="5" fill="black"/>
+  <circle cx="65" cy="40" r="5" fill="black"/>
+
+  <!-- Smile -->
+  <path d="M 35 60 Q 50 75 65 60" stroke="black" stroke-width="2" fill="transparent"/>
+</svg>
