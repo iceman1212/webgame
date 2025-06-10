@@ -1,5 +1,5 @@
-import { canvas, ctx } from '../utils/domElements.js';
-import { shuffleArray } from '../utils/helpers.js';
+import { canvas, ctx } from '../utils/domElements';
+import { shuffleArray } from '../utils/helpers';
 
 // Type definitions
 export interface Question { // Define it locally or import from a shared types file if created
