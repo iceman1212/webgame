@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>神奇数学气球大战 v2.3</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="info">
+    <span>得分:<span id="score">0</span></span>
+    <span>生命:<span id="lives">3</span></span>
+    <span>题目:<span id="questionText">-</span></span>
+  </div>
+  <canvas id="gameCanvas" width="480" height="640"></canvas>
+  <button id="startBtn">开始游戏</button>
+  <div id="overlay">
+    <div id="messageBox">
+      <h1 id="messageTitle">游戏结束</h1>
+      <p id="messageContent">得分:0</p>
+      <button id="restartBtn">重新开始</button>
+    </div>
+  </div>
+  <script src="dist/game.js"></script>
+</body>
+</html>
