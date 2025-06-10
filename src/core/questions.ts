@@ -1,4 +1,4 @@
-import { questionEl } from '../utils/domElements';
+import { questionEl } from '../utils/domElements.js';
 
 export interface Question {
   text: string;
