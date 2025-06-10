@@ -1,4 +1,4 @@
-import { canvas, ctx } from '../utils/domElements';
+import { canvas, ctx } from '../utils/domElements.js';
 
 // Type definitions
 export interface Player {
