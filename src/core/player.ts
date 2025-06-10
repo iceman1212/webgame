@@ -10,7 +10,7 @@ export interface Player {
 
 // Preload player image
 export const playerImage = new Image();
-playerImage.src = 'assets/images/player_character.png'; // Ensure these assets are available
+playerImage.src = 'assets/images/player_character.svg'; // Ensure these assets are available
 
 export function drawPlayer(player: Player | null): void {
   if (!ctx || !player) return;
