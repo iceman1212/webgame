@@ -1,6 +1,6 @@
 # Math Balloon Game
 
-This is a simple math game where you pop balloons that correctly answer arithmetic questions. The project has been refactored to use TypeScript for the game logic.
+Test your math skills by popping balloons in this fun and interactive game! This is a simple math game where you pop balloons that correctly answer arithmetic questions. The project has been refactored to use TypeScript for the game logic.
 
 ## Technologies Used
 
@@ -14,9 +14,9 @@ This is a simple math game where you pop balloons that correctly answer arithmet
 - \`index.html\`: The main HTML file (located in the project root).
 - \`style.css\`: Contains all the styles for the game (located in the project root).
 - \`src/\`: Contains the TypeScript source code.
-  - \`src/game.ts\`: The core game logic.
+  - \`src/gameController.ts\`: The core game logic.
 - \`dist/\`: Contains the compiled JavaScript output.
-  - \`dist/game.js\`: The compiled JavaScript file, linked by \`index.html\`.
+  - \`dist/gameController.js\`: The compiled JavaScript file, linked by \`index.html\`.
 - \`package.json\`: Defines project dependencies and scripts.
 - \`tsconfig.json\`: Configuration for the TypeScript compiler.
 
@@ -54,6 +54,27 @@ This is a simple math game where you pop balloons that correctly answer arithmet
     \`\`\`
     Alternatively, you can usually just double-click the \`index.html\` file in your file explorer.
 
+## Gameplay
+
+- Arithmetic questions will appear at the top of the screen.
+- Multiple balloons with numbers will float upwards.
+- Click on the balloon that correctly answers the current question.
+- If you're correct, the balloon will pop, and you'll score points!
+- If you're wrong, you'll lose a life.
+- The game ends when you run out of lives.
+
 ## Development
 
-If you make changes to the TypeScript code in \`src/game.ts\`, you will need to rebuild the project using \`npm run build\` to see your changes reflected in the game.
+If you make changes to the TypeScript code in \`src/gameController.ts\`, you will need to rebuild the project using \`npm run build\` to see your changes reflected in the game.
+
+## Contributing
+
+Contributions are welcome! If you have ideas for new features, bug fixes, or improvements, please feel free to:
+1. Fork the repository.
+2. Create a new branch for your feature or fix.
+3. Make your changes.
+4. Submit a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
