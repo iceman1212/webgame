@@ -1,3 +1,5 @@
+import { GAME_CONFIG, MUSIC_NOTES } from './gameConfig.js';
+
 // 音频上下文
 // 获取全局的AudioContext，用于处理和播放音频
 const AudioContextGlobal: typeof AudioContext = window.AudioContext || (window as any).webkitAudioContext;
@@ -8,8 +10,8 @@ export const audioCtx: AudioContext | null = AudioContextGlobal ? new AudioConte
 export function startBackgroundMusic(isRunning: boolean): void {
   // 如果游戏未运行或音频上下文不存在，则直接返回
   if (!isRunning || !audioCtx) return;
-  // 定义音符频率数组
-  const notes: number[] = [261.63, 293.66, 329.63, 349.23];
+  // 使用配置中的音符频率数组
+  const notes: readonly number[] = MUSIC_NOTES;
   // 初始化音符索引
   let index: number = 0;
   // 播放下一个音符函数
@@ -27,7 +29,7 @@ export function startBackgroundMusic(isRunning: boolean): void {
     // 设置振荡器频率为当前音符的频率
     osc.frequency.setValueAtTime(notes[index], now);
     // 设置增益（音量）
-    gain.gain.setValueAtTime(0.05, now);
+    gain.gain.setValueAtTime(GAME_CONFIG.BACKGROUND_MUSIC_VOLUME, now);
     // 连接振荡器到增益节点
     osc.connect(gain);
     // 连接增益节点到音频输出目标（扬声器）
@@ -63,7 +65,7 @@ export function playPopSound(): void {
   osc1.frequency.setValueAtTime(880, now); // A5音
   osc2.frequency.setValueAtTime(660, now); // E5音
   // 设置音量
-  gain.gain.setValueAtTime(0.12, now);
+  gain.gain.setValueAtTime(GAME_CONFIG.POP_SOUND_VOLUME, now);
   // 连接振荡器到增益节点
   osc1.connect(gain);
   osc2.connect(gain);
@@ -72,12 +74,12 @@ export function playPopSound(): void {
   // 开始播放
   osc1.start(now);
   osc2.start(now);
-  // 在0.15秒内线性降低频率，产生“pop”效果
-  osc1.frequency.linearRampToValueAtTime(440, now + 0.15); // A4音
-  osc2.frequency.linearRampToValueAtTime(330, now + 0.15); // E4音
-  // 0.15秒后停止播放
-  osc1.stop(now + 0.15);
-  osc2.stop(now + 0.15);
+  // 在配置的时间内线性降低频率，产生“pop”效果
+  osc1.frequency.linearRampToValueAtTime(440, now + GAME_CONFIG.SOUND_DURATION_POP); // A4音
+  osc2.frequency.linearRampToValueAtTime(330, now + GAME_CONFIG.SOUND_DURATION_POP); // E4音
+  // 在配置的时间后停止播放
+  osc1.stop(now + GAME_CONFIG.SOUND_DURATION_POP);
+  osc2.stop(now + GAME_CONFIG.SOUND_DURATION_POP);
 }
 
 // 播放失败音效函数
@@ -95,17 +97,17 @@ export function playFailSound(): void {
   // 设置初始频率
   osc.frequency.setValueAtTime(200, now);
   // 设置音量
-  gain.gain.setValueAtTime(0.15, now);
+  gain.gain.setValueAtTime(GAME_CONFIG.FAIL_SOUND_VOLUME, now);
   // 连接振荡器到增益节点
   osc.connect(gain);
   // 连接增益节点到音频输出
   gain.connect(audioCtx.destination);
   // 开始播放
   osc.start(now);
-  // 在0.4秒内指数级降低频率，产生“失败”效果
-  osc.frequency.exponentialRampToValueAtTime(50, now + 0.4);
-  // 在0.4秒内线性降低音量至0
-  gain.gain.linearRampToValueAtTime(0, now + 0.4);
-  // 0.4秒后停止播放
-  osc.stop(now + 0.4);
+  // 在配置的时间内指数级降低频率，产生“失败”效果
+  osc.frequency.exponentialRampToValueAtTime(50, now + GAME_CONFIG.SOUND_DURATION_FAIL);
+  // 在配置的时间内线性降低音量至0
+  gain.gain.linearRampToValueAtTime(0, now + GAME_CONFIG.SOUND_DURATION_FAIL);
+  // 在配置的时间后停止播放
+  osc.stop(now + GAME_CONFIG.SOUND_DURATION_FAIL);
 }

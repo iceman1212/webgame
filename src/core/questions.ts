@@ -1,4 +1,5 @@
 import { questionEl } from '../utils/domElements.js';
+import { GAME_CONFIG } from './gameConfig.js';
 
 // 定义问题对象接口
 export interface Question {
@@ -8,10 +9,10 @@ export interface Question {
 
 // 生成问题函数
 export function generateQuestion(): Question {
-  // 生成1-9之间的随机数a
-  const a: number = Math.floor(Math.random() * 9) + 1;
-  // 生成1-9之间的随机数b
-  const b: number = Math.floor(Math.random() * 9) + 1;
+  // 生成配置范围内的随机数a
+  const a: number = Math.floor(Math.random() * (GAME_CONFIG.QUESTION_NUMBER_MAX - GAME_CONFIG.QUESTION_NUMBER_MIN + 1)) + GAME_CONFIG.QUESTION_NUMBER_MIN;
+  // 生成配置范围内的随机数b
+  const b: number = Math.floor(Math.random() * (GAME_CONFIG.QUESTION_NUMBER_MAX - GAME_CONFIG.QUESTION_NUMBER_MIN + 1)) + GAME_CONFIG.QUESTION_NUMBER_MIN;
   // 定义操作符数组
   const ops: string[] = ['+', '-', '*'];
   // 随机选择一个操作符
