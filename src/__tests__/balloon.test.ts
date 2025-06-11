@@ -1,6 +1,5 @@
-import { spawnBalloons, drawBalloons, Balloon, BALLOON_RADIUS, balloonImages as actualBalloonImages } from '../components/balloon';
+import { Balloon, BALLOON_RADIUS, drawBalloons, spawnBalloons } from '../components/balloon';
 import { Question } from '../core/questions';
-import { canvas, ctx } from '../utils/domElements'; // These will be mocked
 
 // Mock domElements
 jest.mock('../utils/domElements', () => {
@@ -28,7 +27,7 @@ jest.mock('../utils/domElements', () => {
     canvas: {
       width: 800, // Mock canvas width
       height: 600,
-      getContext: jest.fn().mockReturnValue(originalCtx)
+      getContext: jest.fn().mockReturnValue(originalCtx),
     },
     ctx: originalCtx,
     // Mock other elements if needed by the functions under test, though balloon.ts primarily uses canvas & ctx
@@ -55,7 +54,6 @@ jest.mock('../utils/domElements', () => {
 //   shuffleArray: jest.fn(arr => arr), // Example: mock shuffle to do nothing or a predictable shuffle
 // }));
 
-
 // Access the mocked canvas and context
 const mockCanvas = jest.requireMock('../utils/domElements').canvas;
 const mockCtx = jest.requireMock('../utils/domElements').ctx;
@@ -75,7 +73,6 @@ const mockBalloonImages = [mockImage, mockImage, mockImage];
 // We will mock the module and then re-import the functions we need.
 // This is already done by the jest.mock call below, but we need to ensure it's effective.
 // The previous jest.mock for '../components/balloon' is good.
-
 
 describe('spawnBalloons', () => {
   const mockQuestion: Question = {
@@ -144,12 +141,14 @@ describe('spawnBalloons', () => {
   });
 
   test('should return existing balloons if currentQuestion is null', () => {
-    const existing: Balloon[] = [{ x:1, y:1, val:1, image: mockImage, speed:1, floatOffset:1, color: 'red'}]; // Added color for interface conformity
+    const existing: Balloon[] = [
+      { x: 1, y: 1, val: 1, image: mockImage, speed: 1, floatOffset: 1, color: 'red' },
+    ]; // Added color for interface conformity
     const balloons = spawnBalloons(null, existing);
     expect(balloons).toBe(existing);
   });
 
-   test('should return existing balloons if canvas is null (hard to test directly with module mock)', () => {
+  test('should return existing balloons if canvas is null (hard to test directly with module mock)', () => {
     // To test this, we'd need to make the mocked canvas null.
     // This test is more conceptual given the current mocking strategy.
     // jest.spyOn(require('../utils/domElements'), 'canvas', 'get').mockReturnValue(null);
@@ -161,11 +160,25 @@ describe('spawnBalloons', () => {
 describe('drawBalloons', () => {
   const sampleBalloons: Balloon[] = [
     { x: 50, y: 50, val: 10, image: mockBalloonImages[0], speed: 1, floatOffset: 0, color: 'red' },
-    { x: 150, y: 100, val: 20, image: mockBalloonImages[1], speed: 1.5, floatOffset: Math.PI / 2, color: 'blue' },
+    {
+      x: 150,
+      y: 100,
+      val: 20,
+      image: mockBalloonImages[1],
+      speed: 1.5,
+      floatOffset: Math.PI / 2,
+      color: 'blue',
+    },
   ];
 
-   const sampleBalloonWithNoImage: Balloon = {
-    x: 250, y: 150, val: 30, image: { ...mockImage, complete: false } as any as HTMLImageElement, speed: 1, floatOffset: Math.PI, color: 'green'
+  const sampleBalloonWithNoImage: Balloon = {
+    x: 250,
+    y: 150,
+    val: 30,
+    image: { ...mockImage, complete: false } as any as HTMLImageElement,
+    speed: 1,
+    floatOffset: Math.PI,
+    color: 'green',
   };
 
   let dateNowSpyDraw: jest.SpyInstance;
@@ -221,8 +234,8 @@ describe('drawBalloons', () => {
     expect(mockCtx.stroke).toHaveBeenCalledTimes(numBalloons);
     expect(mockCtx.fillText).toHaveBeenCalledTimes(numBalloons);
 
-    sampleBalloons.forEach((balloon) => {
-      const expectedSway = Math.sin((FIXED_TIME / 500) + balloon.floatOffset) * 8;
+    sampleBalloons.forEach(balloon => {
+      const expectedSway = Math.sin(FIXED_TIME / 500 + balloon.floatOffset) * 8;
       const expectedBx = balloon.x + expectedSway;
       const expectedBy = balloon.y;
 

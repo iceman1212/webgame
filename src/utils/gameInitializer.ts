@@ -16,28 +16,34 @@ export class GameInitializer {
    * 用于开始新游戏和重新开始游戏
    */
   static initializeGame(): boolean {
-    return GameErrorHandler.safeExecute(() => {
-      if (!canvas) {
-        GameErrorHandler.handleCanvasError('initialization');
-        return false;
-      }
+    return (
+      GameErrorHandler.safeExecute(
+        () => {
+          if (!canvas) {
+            GameErrorHandler.handleCanvasError('initialization');
+            return false;
+          }
 
-      // 重置游戏状态
-      gameState.reset();
+          // 重置游戏状态
+          gameState.reset();
 
-      // 初始化玩家
-      gameState.initializePlayer(canvas.width, canvas.height);
+          // 初始化玩家
+          gameState.initializePlayer(canvas.width, canvas.height);
 
-      // 生成第一个问题和对应的气球
-      const question = generateQuestion();
-      gameState.currentQuestion = question;
-      gameState.balloons = spawnBalloons(question, []);
+          // 生成第一个问题和对应的气球
+          const question = generateQuestion();
+          gameState.currentQuestion = question;
+          gameState.balloons = spawnBalloons(question, []);
 
-      // 开始游戏
-      gameState.start();
+          // 开始游戏
+          gameState.start();
 
-      return true;
-    }, 'game initialization', false) || false;
+          return true;
+        },
+        'game initialization',
+        false
+      ) || false
+    );
   }
 
   /**
@@ -49,9 +55,12 @@ export class GameInitializer {
     if (gameState.gameInterval) {
       clearInterval(gameState.gameInterval);
     }
-    
+
     // 启动主游戏循环
-    gameState.gameInterval = setInterval(updateFunction, GAME_CONFIG.FRAME_RATE) as unknown as number;
+    gameState.gameInterval = setInterval(
+      updateFunction,
+      GAME_CONFIG.FRAME_RATE
+    ) as unknown as number;
   }
 
   /**
@@ -62,7 +71,7 @@ export class GameInitializer {
     if (gameState.spawnInterval) {
       clearInterval(gameState.spawnInterval);
     }
-    
+
     // 启动气球生成循环
     gameState.spawnInterval = setInterval(() => {
       // 如果屏幕上没有气球了，则生成新的一批气球

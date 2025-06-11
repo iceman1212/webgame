@@ -15,27 +15,53 @@ export class GameState {
   private _score: number = 0;
   private _lives: number = GAME_CONFIG.INITIAL_LIVES;
   private _isRunning: boolean = false;
-  
+
   // 游戏循环相关
   private _gameInterval: number | null = null;
   private _spawnInterval: number | null = null;
 
   // Getters
-  get player(): Player | null { return this._player; }
-  get balloons(): Balloon[] { return this._balloons; }
-  get currentQuestion(): Question | null { return this._currentQuestion; }
-  get score(): number { return this._score; }
-  get lives(): number { return this._lives; }
-  get isRunning(): boolean { return this._isRunning; }
-  get gameInterval(): number | null { return this._gameInterval; }
-  get spawnInterval(): number | null { return this._spawnInterval; }
+  get player(): Player | null {
+    return this._player;
+  }
+  get balloons(): Balloon[] {
+    return this._balloons;
+  }
+  get currentQuestion(): Question | null {
+    return this._currentQuestion;
+  }
+  get score(): number {
+    return this._score;
+  }
+  get lives(): number {
+    return this._lives;
+  }
+  get isRunning(): boolean {
+    return this._isRunning;
+  }
+  get gameInterval(): number | null {
+    return this._gameInterval;
+  }
+  get spawnInterval(): number | null {
+    return this._spawnInterval;
+  }
 
   // Setters
-  set player(value: Player | null) { this._player = value; }
-  set balloons(value: Balloon[]) { this._balloons = value; }
-  set currentQuestion(value: Question | null) { this._currentQuestion = value; }
-  set gameInterval(value: number | null) { this._gameInterval = value; }
-  set spawnInterval(value: number | null) { this._spawnInterval = value; }
+  set player(value: Player | null) {
+    this._player = value;
+  }
+  set balloons(value: Balloon[]) {
+    this._balloons = value;
+  }
+  set currentQuestion(value: Question | null) {
+    this._currentQuestion = value;
+  }
+  set gameInterval(value: number | null) {
+    this._gameInterval = value;
+  }
+  set spawnInterval(value: number | null) {
+    this._spawnInterval = value;
+  }
 
   /**
    * 初始化玩家
@@ -47,7 +73,7 @@ export class GameState {
       x: canvasWidth / 2 - GAME_CONFIG.PLAYER_OFFSET_X,
       y: canvasHeight - GAME_CONFIG.PLAYER_OFFSET_Y,
       size: GAME_CONFIG.PLAYER_SIZE,
-      speed: GAME_CONFIG.PLAYER_SPEED
+      speed: GAME_CONFIG.PLAYER_SPEED,
     };
   }
 

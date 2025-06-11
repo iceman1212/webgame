@@ -1,4 +1,4 @@
-import { generateQuestion, Question } from '../core/questions';
+import { generateQuestion } from '../core/questions';
 
 describe('Question Module', () => {
   describe('generateQuestion', () => {
@@ -17,7 +17,8 @@ describe('Question Module', () => {
 
     // More specific tests, e.g. calculate answer based on text
     it('should generate a question where the answer matches the text', () => {
-      for (let i = 0; i < 10; i++) { // Run a few times due to randomness
+      for (let i = 0; i < 10; i++) {
+        // Run a few times due to randomness
         const question = generateQuestion();
         const match = question.text.match(/(\d+) ([+\-*]) (\d+) = \?/);
         expect(match).not.toBeNull();

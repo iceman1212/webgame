@@ -8,7 +8,7 @@ export class GameErrorHandler {
     AUDIO_INIT_FAILED: '音频初始化失败，游戏将在静音模式下运行',
     RESOURCE_LOAD_FAILED: '游戏资源加载失败，部分功能可能受影响',
     GAME_STATE_ERROR: '游戏状态错误，请重新开始游戏',
-    UNKNOWN_ERROR: '发生未知错误，请刷新页面重试'
+    UNKNOWN_ERROR: '发生未知错误，请刷新页面重试',
   } as const;
 
   /**
@@ -20,14 +20,14 @@ export class GameErrorHandler {
   static handleResourceLoadError(resourceType: string, resourcePath: string, error?: Error): void {
     const message = `Failed to load ${resourceType}: ${resourcePath}`;
     console.warn(message, error);
-    
+
     // 在开发环境中显示更详细的错误信息
     if (process.env.NODE_ENV === 'development') {
       console.error('Resource load error details:', {
         type: resourceType,
         path: resourcePath,
         error: error?.message,
-        stack: error?.stack
+        stack: error?.stack,
       });
     }
   }
@@ -39,7 +39,7 @@ export class GameErrorHandler {
    */
   static handleAudioError(operation: string, error?: Error): void {
     console.warn(`Audio ${operation} failed:`, error?.message);
-    
+
     // 可以在这里添加用户通知逻辑
     // 例如显示一个小提示："音频功能暂时不可用"
   }
@@ -51,7 +51,7 @@ export class GameErrorHandler {
    */
   static handleGameStateError(operation: string, error?: Error): void {
     console.error(`Game state error during ${operation}:`, error);
-    
+
     // 在生产环境中，可以发送错误报告到监控服务
     if (process.env.NODE_ENV === 'production') {
       // 这里可以集成错误监控服务，如 Sentry
@@ -66,7 +66,7 @@ export class GameErrorHandler {
    */
   static handleCanvasError(operation: string, error?: Error): void {
     console.error(`Canvas error during ${operation}:`, error);
-    
+
     // 可以尝试重新初始化Canvas或提示用户刷新页面
   }
 
@@ -76,11 +76,7 @@ export class GameErrorHandler {
    * @param errorContext 错误上下文
    * @param fallbackValue 出错时的回退值
    */
-  static safeExecute<T>(
-    fn: () => T, 
-    errorContext: string, 
-    fallbackValue?: T
-  ): T | undefined {
+  static safeExecute<T>(fn: () => T, errorContext: string, fallbackValue?: T): T | undefined {
     try {
       return fn();
     } catch (error) {
@@ -96,8 +92,8 @@ export class GameErrorHandler {
    * @param fallbackValue 出错时的回退值
    */
   static async safeExecuteAsync<T>(
-    fn: () => Promise<T>, 
-    errorContext: string, 
+    fn: () => Promise<T>,
+    errorContext: string,
     fallbackValue?: T
   ): Promise<T | undefined> {
     try {
@@ -115,18 +111,18 @@ export class GameErrorHandler {
    */
   static validateRequiredElements(elements: Record<string, Element | null>): boolean {
     const missingElements: string[] = [];
-    
+
     for (const [name, element] of Object.entries(elements)) {
       if (!element) {
         missingElements.push(name);
       }
     }
-    
+
     if (missingElements.length > 0) {
       console.error('Missing required DOM elements:', missingElements);
       return false;
     }
-    
+
     return true;
   }
 

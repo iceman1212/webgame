@@ -45,7 +45,8 @@ describe('Helpers Module', () => {
       // unless the shuffle algorithm is broken or very unlucky.
       // To make this test more robust, we could run it multiple times or check against
       // a few known shuffles, but for this purpose, a direct inequality is often sufficient.
-      if (originalArray.length > 1) { // Only makes sense if array has more than one element
+      if (originalArray.length > 1) {
+        // Only makes sense if array has more than one element
         expect(arrayCopy).not.toEqual(originalArray);
       } else {
         expect(arrayCopy).toEqual(originalArray); // Should be equal if 0 or 1 element

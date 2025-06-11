@@ -1,11 +1,21 @@
-import { canvas, ctx, scoreEl, livesEl, startBtn, overlay, messageTitle, messageContent, restartBtn } from './utils/domElements.js';
-import { drawPlayer } from './core/player.js';
-import { BALLOON_RADIUS, spawnBalloons, drawBalloons } from './components/balloon.js';
-import { generateQuestion } from './core/questions.js';
-import { playPopSound, playFailSound } from './core/audio.js';
-import { gameState } from './core/gameState.js';
-import { GameInitializer } from './utils/gameInitializer.js';
+import { Balloon, BALLOON_RADIUS, drawBalloons, spawnBalloons } from './components/balloon.js';
+import { playFailSound, playPopSound } from './core/audio.js';
 import { GAME_CONFIG } from './core/gameConfig.js';
+import { gameState } from './core/gameState.js';
+import { drawPlayer } from './core/player.js';
+import { generateQuestion } from './core/questions.js';
+import {
+  canvas,
+  ctx,
+  livesEl,
+  messageContent,
+  messageTitle,
+  overlay,
+  restartBtn,
+  scoreEl,
+  startBtn,
+} from './utils/domElements.js';
+import { GameInitializer } from './utils/gameInitializer.js';
 
 // 游戏主更新函数，作为游戏循环的核心
 function update(): void {
@@ -40,15 +50,21 @@ function update(): void {
   // 再次遍历所有气球，检测与玩家的碰撞
   gameState.balloons.forEach(balloon => {
     // 计算气球的摇摆效果，使运动更自然
-    const sway: number = Math.sin((Date.now() / GAME_CONFIG.BALLOON_SWAY_SPEED) + balloon.floatOffset) * GAME_CONFIG.BALLOON_SWAY_AMPLITUDE;
+    const sway: number =
+      Math.sin(Date.now() / GAME_CONFIG.BALLOON_SWAY_SPEED + balloon.floatOffset) *
+      GAME_CONFIG.BALLOON_SWAY_AMPLITUDE;
     const bx: number = balloon.x + sway; // 气球的实际x坐标 (包含摇摆)
     const by: number = balloon.y; // 气球的实际y坐标
     // 碰撞检测逻辑：检查玩家的边界框是否与气球的边界框重叠
-    if (gameState.player && gameState.currentQuestion &&
-        gameState.player.x < bx + BALLOON_RADIUS * 2 && // 玩家左边界 < 气球右边界
-        gameState.player.x + gameState.player.size > bx &&          // 玩家右边界 > 气球左边界
-        gameState.player.y < by + BALLOON_RADIUS * 2 && // 玩家上边界 < 气球下边界
-        gameState.player.y + gameState.player.size > by) {          // 玩家下边界 > 气球上边界
+    if (
+      gameState.player &&
+      gameState.currentQuestion &&
+      gameState.player.x < bx + BALLOON_RADIUS * 2 && // 玩家左边界 < 气球右边界
+      gameState.player.x + gameState.player.size > bx && // 玩家右边界 > 气球左边界
+      gameState.player.y < by + BALLOON_RADIUS * 2 && // 玩家上边界 < 气球下边界
+      gameState.player.y + gameState.player.size > by
+    ) {
+      // 玩家下边界 > 气球上边界
       // 如果发生碰撞
       handleBalloonCollision(balloon);
     }
@@ -56,7 +72,7 @@ function update(): void {
 }
 
 // 处理气球碰撞
-function handleBalloonCollision(balloon: any): void {
+function handleBalloonCollision(balloon: Balloon): void {
   if (!gameState.currentQuestion) return;
 
   if (balloon.val === gameState.currentQuestion.answer) {
@@ -75,7 +91,7 @@ function handleBalloonCollision(balloon: any): void {
 }
 
 // 处理气球移除
-function handleBalloonRemoval(balloonToRemove: any): void {
+function handleBalloonRemoval(balloonToRemove: Balloon): void {
   const allBalloonsRemoved = gameState.removeBalloon(balloonToRemove);
   // 如果移除后屏幕上没有气球了，则准备下一轮
   if (allBalloonsRemoved) {
@@ -130,9 +146,14 @@ document.addEventListener('keydown', (e: KeyboardEvent) => {
   if (e.key === 'ArrowLeft' || e.key === 'a') {
     // 玩家向左移动，但不超出canvas左边界
     gameState.player.x = Math.max(0, gameState.player.x - gameState.player.speed);
-  } else if (e.key === 'ArrowRight' || e.key === 'd') { // 如果按下右箭头键或 'd' 键
+  } else if (e.key === 'ArrowRight' || e.key === 'd') {
+    // 如果按下右箭头键或 'd' 键
     // 玩家向右移动，但不超出canvas右边界
-    if(canvas) gameState.player.x = Math.min(canvas.width - gameState.player.size, gameState.player.x + gameState.player.speed);
+    if (canvas)
+      gameState.player.x = Math.min(
+        canvas.width - gameState.player.size,
+        gameState.player.x + gameState.player.speed
+      );
   }
 });
 
@@ -143,9 +164,12 @@ canvas?.addEventListener('mousemove', (e: MouseEvent) => {
   // 获取canvas在页面中的位置和大小
   const rect = canvas.getBoundingClientRect();
   // 计算鼠标在canvas内的x坐标
-  let mx = e.clientX - rect.left;
+  const mx = e.clientX - rect.left;
   // 玩家根据鼠标位置移动，但不超出canvas边界，玩家中心对准鼠标
-  gameState.player.x = Math.min(canvas.width - gameState.player.size, Math.max(0, mx - gameState.player.size / 2));
+  gameState.player.x = Math.min(
+    canvas.width - gameState.player.size,
+    Math.max(0, mx - gameState.player.size / 2)
+  );
 });
 
 // 监听开始按钮的点击事件
@@ -154,7 +178,7 @@ startBtn?.addEventListener('click', () => {
   if (gameState.isRunning || !canvas) return;
 
   // 隐藏开始按钮
-  if(startBtn) startBtn.style.display = 'none';
+  if (startBtn) startBtn.style.display = 'none';
 
   // 使用游戏初始化器启动游戏
   if (GameInitializer.startGame(update)) {
@@ -178,4 +202,4 @@ restartBtn?.addEventListener('click', () => {
   }
 });
 
-console.log("Game controller logic loaded. Ensure assets are in the correct path (e.g., ./assets/images/...) relative to index.html");
+// Game controller logic loaded

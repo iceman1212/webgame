@@ -1,5 +1,4 @@
 import { drawPlayer, Player, playerImage } from '../core/player'; // playerImage is imported to manipulate its state for tests
-import { ctx } from '../utils/domElements'; // This will be the mocked version
 
 // Mock the domElements module
 jest.mock('../utils/domElements', () => ({
@@ -23,11 +22,12 @@ jest.mock('../utils/domElements', () => ({
     fillText: jest.fn(),
     clearRect: jest.fn(), // Added clearRect for completeness if other tests need it
   },
-  canvas: { // Mock canvas as well if it's used directly or needed for context creation
+  canvas: {
+    // Mock canvas as well if it's used directly or needed for context creation
     width: 800,
     height: 600,
-    getContext: jest.fn().mockImplementation(() => jest.requireMock('../utils/domElements').ctx) // Return the mocked ctx
-  }
+    getContext: jest.fn().mockImplementation(() => jest.requireMock('../utils/domElements').ctx), // Return the mocked ctx
+  },
 }));
 
 describe('drawPlayer', () => {
@@ -106,7 +106,6 @@ describe('drawPlayer', () => {
     // The initial check `if (!ctx || !player) return;` in drawPlayer handles this.
     // We can ensure this by verifying no drawing calls if the player is valid but we imagine ctx is null.
     // However, our mock provides ctx. So, this test is more about the internal guard.
-
     // To truly test the `!ctx` guard, we'd need to be able to set the mocked ctx to null.
     // For now, the `drawPlayer(null)` test partially covers guards.
     // And the module mock ensures `ctx` is an object, so the `!ctx` path in `drawPlayer` isn't taken with this mock.

@@ -2,7 +2,9 @@ import { GAME_CONFIG, MUSIC_NOTES } from './gameConfig.js';
 
 // 音频上下文
 // 获取全局的AudioContext，用于处理和播放音频
-const AudioContextGlobal: typeof AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+const AudioContextGlobal: typeof AudioContext =
+  window.AudioContext ||
+  (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
 // 创建音频上下文实例，如果浏览器不支持则为null
 export const audioCtx: AudioContext | null = AudioContextGlobal ? new AudioContextGlobal() : null;
 

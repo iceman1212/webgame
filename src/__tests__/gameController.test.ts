@@ -1,5 +1,4 @@
 // Mocked dependencies
-import { Player } from '../core/player'; // Only Player type might be needed
 import { Balloon, Question } from '../components/balloon'; // Types
 
 // --- MOCKS CONFIGURATION ---
@@ -16,27 +15,60 @@ const mockDomElementsState = {
   } as unknown as HTMLCanvasElement,
   ctx: {
     clearRect: jest.fn(),
-    drawImage: jest.fn(), fill: jest.fn(), beginPath: jest.fn(), moveTo: jest.fn(), lineTo: jest.fn(),
-    closePath: jest.fn(), arc: jest.fn(), save: jest.fn(), translate: jest.fn(), restore: jest.fn(),
-    fillText: jest.fn(), measureText: jest.fn(() => ({ width: 20 })), fillRect: jest.fn(),
+    drawImage: jest.fn(),
+    fill: jest.fn(),
+    beginPath: jest.fn(),
+    moveTo: jest.fn(),
+    lineTo: jest.fn(),
+    closePath: jest.fn(),
+    arc: jest.fn(),
+    save: jest.fn(),
+    translate: jest.fn(),
+    restore: jest.fn(),
+    fillText: jest.fn(),
+    measureText: jest.fn(() => ({ width: 20 })),
+    fillRect: jest.fn(),
     stroke: jest.fn(),
-    fillStyle: '', strokeStyle: '', lineWidth: 0, font: '', textAlign: '',
+    fillStyle: '',
+    strokeStyle: '',
+    lineWidth: 0,
+    font: '',
+    textAlign: '',
   } as unknown as CanvasRenderingContext2D,
   scoreEl: { textContent: '' } as HTMLElement,
   livesEl: { textContent: '' } as HTMLElement,
   questionEl: { textContent: '' } as HTMLElement,
-  startBtn: { style: { display: '' }, addEventListener: jest.fn() as jest.Mock } as unknown as HTMLButtonElement,
-  overlay: { style: { visibility: '' }, addEventListener: jest.fn() as jest.Mock } as unknown as HTMLElement,
+  startBtn: {
+    style: { display: '' },
+    addEventListener: jest.fn() as jest.Mock,
+  } as unknown as HTMLButtonElement,
+  overlay: {
+    style: { visibility: '' },
+    addEventListener: jest.fn() as jest.Mock,
+  } as unknown as HTMLElement,
   messageTitle: { textContent: '' } as HTMLElement,
   messageContent: { textContent: '' } as HTMLElement,
-  restartBtn: { style: { display: '' }, addEventListener: jest.fn() as jest.Mock } as unknown as HTMLButtonElement,
+  restartBtn: {
+    style: { display: '' },
+    addEventListener: jest.fn() as jest.Mock,
+  } as unknown as HTMLButtonElement,
   // Mock document.addEventListener separately if possible, or rely on global spies.
   // For now, this is tricky without a direct reference to 'document'.
 };
 
 jest.mock('../utils/domElements', () => mockDomElementsState);
 jest.mock('../core/player', () => ({ drawPlayer: jest.fn() }));
-const mockSpawnedBalloonsList: Balloon[] = [{ x: 100, y: 50, val: 123, image: {} as HTMLImageElement, speed: 1, floatOffset: 0, color: 'red' }];
+const mockSpawnedBalloonsList: Balloon[] = [
+  {
+    x: 100,
+    y: 50,
+    val: 123,
+    image: {} as HTMLImageElement,
+    speed: 1,
+    floatOffset: 0,
+    color: 'red',
+  },
+];
 jest.mock('../components/balloon', () => ({
   drawBalloons: jest.fn(),
   spawnBalloons: jest.fn(() => mockSpawnedBalloonsList),
@@ -58,9 +90,7 @@ jest.mock('../core/audio', () => ({
 const getGenerateQuestionMock = () => require('../core/questions').generateQuestion;
 const getAudioCtxResumeMock = () => require('../core/audio').audioCtx.resume;
 
-
 describe('GameController', () => {
-  let gameControllerModule: any;
   let documentAddEventListenerSpy: jest.SpyInstance;
 
   beforeEach(() => {
@@ -81,7 +111,7 @@ describe('GameController', () => {
 
     // Load the game controller module. This will execute its top-level code,
     // including attaching event listeners.
-    gameControllerModule = require('../gameController');
+    require('../gameController');
   });
 
   afterEach(() => {
@@ -91,9 +121,18 @@ describe('GameController', () => {
 
   describe('Initialization and Event Listener Attachment', () => {
     test('should attach event listeners on load', () => {
-      expect(mockDomElementsState.startBtn.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-      expect(mockDomElementsState.restartBtn.addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-      expect(mockDomElementsState.canvas.addEventListener).toHaveBeenCalledWith('mousemove', expect.any(Function));
+      expect(mockDomElementsState.startBtn.addEventListener).toHaveBeenCalledWith(
+        'click',
+        expect.any(Function)
+      );
+      expect(mockDomElementsState.restartBtn.addEventListener).toHaveBeenCalledWith(
+        'click',
+        expect.any(Function)
+      );
+      expect(mockDomElementsState.canvas.addEventListener).toHaveBeenCalledWith(
+        'mousemove',
+        expect.any(Function)
+      );
       expect(documentAddEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function));
     });
   });
